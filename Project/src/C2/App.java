@@ -1,7 +1,7 @@
 package C2;
 
-import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.ArrayList;
 
 /*
     O seu grupo deve:
@@ -30,60 +30,64 @@ public class App {
     static Dado dado = new Dado();
 
     public static void main(String[] args) throws Exception {
-
-        
         ArrayList<Castelo> vetor = new ArrayList<Castelo>();
 
         preencher(vetor);
         jogar(vetor);
-        
     }
 
-    public static void preencher (ArrayList<Castelo> arr)
-    {
+    public static void preencher(ArrayList<Castelo> arr) {
         String str;
-        for(int i = 0; i < 2; i++)
-        {
-            System.out.println("Nome do " + (i+1) + "º Castelo Europeu: ");
+        for (int i = 0; i < 2; i++) {
+            System.out.print("Nome do " + (i + 1) + "º Castelo Europeu: ");
             str = scanner.nextLine();
-            arr.add(new Europeu(3, 2, str, 10));
+            arr.add(new Europeu(0, 0, str, 1));
 
-            System.out.println("Nome do " + (i+1) + "º Castelo Japones: ");
+            System.out.print("Nome do " + (i + 1) + "º Castelo Japones: ");
             str = scanner.nextLine();
-            arr.add(new Japones(2, 2, str, 15));
+            arr.add(new Japones(0, 0, str, 1));
         }
     }
 
-    public static void jogar (ArrayList<Castelo> arr)
-    {
-        for (int i = 0; i < arr.size(); i++)
-        {
-            System.out.println("Vez de Castelo: " + arr.get(i).getNome());
-            atacar(arr.get(i), arr);
+    public static void jogar(ArrayList<Castelo> arr) {
+        while (arr.size() > 1) {  // Continua o jogo até restar apenas um castelo
+            for (int i = 0; i < arr.size(); i++) {
+                System.out.println("\nVez de Castelo: " + arr.get(i).getNome() + "\n");
+                atacar(arr.get(i), arr);
 
-        }
-    }
-
-    private static void atacar (Castelo castelo, ArrayList<Castelo> arr)
-    {
-        int i = 0, option, num;
-        System.out.println("Escolha um castelo para atacar: ");
-        for(Castelo item : arr) {
-            if(item.getNome().equals(castelo.getNome())) {
-                continue;
-            } else {
-                i++;
-                System.out.println("Index: " + (arr.indexOf(arr.get(i)) + 1) + " | Nome: " + item.getNome());
+                // Verifica se o jogo acabou
+                if (arr.size() == 1) {
+                    System.out.println("CASTELO " + arr.get(0).getNome() + " VENCEDOR!");
+                    return;
+                }
             }
         }
+    }
+
+    private static void atacar(Castelo castelo, ArrayList<Castelo> arr) {
+        int i = 0, option, num;
+        System.out.println("Escolha um castelo para atacar: ");
+        for (Castelo item : arr) {
+            System.out.println("Index: " + (arr.indexOf(item)) + " | Nome: " + item.getNome());
+            i++;
+        }
+
+        System.out.print(": ");
         option = Integer.parseInt(scanner.nextLine());
+
         num = dado.lancar();
-        if(num == 0)
-        {
+        System.out.println("Valor dado: " + num);
+
+        if (num == 0) {
             System.out.println("Passa a vez...");
         } else {
-            arr.get(option - 1).ataque(num);
-            System.out.println(arr.get(i).situacao());
+            boolean destruido = !arr.get(option).ataque(num);  // Ataca e verifica se foi destruído
+            System.out.println(arr.get(option).situacao());
+
+            if (destruido) {
+                System.out.println("CASTELO " + arr.get(option).getNome() + " DESTRUÍDO!");
+                arr.remove(option);  // Remove o castelo da lista
+            }
         }
     }
 }
