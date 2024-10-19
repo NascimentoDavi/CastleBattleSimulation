@@ -6,8 +6,10 @@ public abstract class Castelo {
     private int pontosDeVida;
     private String nome;
 
-    public Castelo() {
-
+    public Castelo(int defesa, int pontosDeVida, String nome) {
+        this.defesa = defesa;
+        this.pontosDeVida = pontosDeVida;
+        this.nome = nome;
     }
 
     public int getDefesa ()
@@ -40,7 +42,29 @@ public abstract class Castelo {
         this.nome = nome;
     }
 
-    public abstract String situacao ();
-    public abstract boolean ataque (int p);
+    public String situacao ()
+    {
+        return "Defesa: " + this.getDefesa() + "\nPontos de Vida: " + this.getPontosDeVida() + "\nNome: " + this.getNome();
+    }
+    
+    public boolean ataque (int p) 
+    {
+        if ( this.getDefesa() > 0 )
+        {
+            this.setDefesa( this.getDefesa() - 1 ); // Decrementa
+            return true;
+
+        } else 
+        {
+            if( this.getPontosDeVida() > 0 )
+            {
+                this.setPontosDeVida( this.getPontosDeVida() - 1 ); // Decrementa
+                this.setDefesa(2);
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
 
 }
