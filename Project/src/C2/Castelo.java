@@ -51,14 +51,14 @@ public abstract class Castelo {
     {
         if ( this.getDefesa() > 0 )
         {
-            this.setDefesa( this.getDefesa() - 1 ); // Decrementa
+            this.setDefesa( this.getDefesa() - 1 );
             return true;
 
         } else 
         {
             if( this.getPontosDeVida() > 0 )
             {
-                this.setPontosDeVida( this.getPontosDeVida() - 1 ); // Decrementa
+                this.setPontosDeVida( this.getPontosDeVida() - 1 );
                 this.setDefesa(2);
                 return true;
             } else {
